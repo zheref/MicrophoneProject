@@ -20,6 +20,10 @@
 	
 	<SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
 	
+	<SolidColorBrush x:Key="BackButton" Opacity="0.1" Color="White" />
+	
+	<SolidColorBrush x:Key="BackButtonOver" Opacity="1" Color="White" />
+	
 	<LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
   		<GradientBrush.GradientStops>
     		<GradientStopCollection>
@@ -82,6 +86,27 @@
 		<Setter Property="FontSize" Value="18" />
 	</Style>
 	
+	<Style x:Key="metroLabel" TargetType="Label">
+		<Setter Property="FontFamily" Value="{StaticResource metroFont}" />
+		<Setter Property="FontWeight" Value="{StaticResource metroWeight}" />
+		<Setter Property="FontSize" Value="40" />
+		<Setter Property="Foreground" Value="White" />
+	</Style>
+	
+	<Style x:Key="metroCaption" TargetType="TextBlock">
+		<Setter Property="FontFamily" Value="{StaticResource metroFont}" />
+		<Setter Property="FontWeight" Value="{StaticResource metroWeight}" />
+		<Setter Property="FontSize" Value="18" />
+	</Style>
+	
+	<Style x:Key="metroTextBox" TargetType="TextBox">
+		<Setter Property="FontFamily" Value="{StaticResource metroFont}" />
+		<Setter Property="FontWeight" Value="{StaticResource metroWeight}" />
+		<Setter Property="FontSize" Value="18" />
+		<Setter Property="Opacity" Value="0.85" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+	</Style>
+	
 	<Style x:Key="SliderButtonStyle" TargetType="{x:Type RepeatButton}">
   		<Setter Property="SnapsToDevicePixels" Value="true"/>
   		<Setter Property="OverridesDefaultStyle" Value="true"/>
@@ -97,6 +122,19 @@
       			</ControlTemplate>
     		</Setter.Value>
   		</Setter>
+	</Style>
+	
+	<Style x:Key="tile" TargetType="{x:Type TextBlock}">
+				<Setter Property="FontFamily" Value="Segoe UI" />
+				<Setter Property="FontStyle" Value="Normal" />
+				<Setter Property="FontWeight" Value="Light" />
+				<Setter Property="FontSize" Value="18" />
+				<Setter Property="Background" Value="Transparent" />
+				<Setter Property="Cursor" Value="None" />
+	</Style>
+	
+	<Style x:Key="tab" BasedOn="{StaticResource tile}" TargetType="{x:Type TextBlock}">
+		<Setter Property="Cursor" Value="Hand" />
 	</Style>
 	
 	<Style x:Key="SliderThumbStyle" TargetType="{x:Type Thumb}">
@@ -126,16 +164,26 @@
 	
 	<!-- ControlTemplates ********************************************************************************** -->
 	<ControlTemplate x:Key="metroButton" TargetType="{x:Type Button}">
-		<Border BorderThickness="3" BorderBrush="White" Padding="3,3,3,3">
+		<Border BorderThickness="3" BorderBrush="White" Padding="3,3,3,3" x:Name="brdBack">
 			<TextBlock 	Text="{TemplateBinding Button.Content}" 
 						HorizontalAlignment="Center" 
 						VerticalAlignment="Center"
 						Style="{StaticResource metroText}"
-						Foreground="White" />
+						Foreground="White" x:Name="txbText"/>
 			<Border.Background>
 				<SolidColorBrush Opacity="0.1" Color="White" />
 			</Border.Background>
 		</Border>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter TargetName="brdBack" Property="Background" Value="{StaticResource BackButtonOver}" />
+				<Setter TargetName="txbText" Property="Foreground" Value="Black" />
+			</Trigger>
+			<Trigger Property="IsPressed" Value="True" >
+				<Setter TargetName="brdBack" Property="Background" Value="{StaticResource BackButtonOver}" />
+				<Setter TargetName="txbText" Property="Foreground" Value="Black" />
+			</Trigger>
+		</ControlTemplate.Triggers>
 	</ControlTemplate>
 	
 	<ControlTemplate x:Key="metroVerticalSlider" TargetType="{x:Type Slider}">

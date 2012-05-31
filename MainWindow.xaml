@@ -5,20 +5,9 @@
 		x:Class="MicrophoneProject.MainWindow"
 		x:Name="Window"
 		Title="Microphone Project Title"
-		Width="1110" Height="604" WindowStartupLocation="CenterScreen" Topmost="True" WindowState="Maximized" Background="Black">
-	<Grid x:Name="grdContainer">
-		<Button Margin="237,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="344,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="448,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="552,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="653,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="757,176,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="237,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="344,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="448,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="552,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="653,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<Button Margin="757,272,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" />
-		<!--<l:TimePicker Margin="48,112,60,70"/>-->
-	</Grid>
+		Width="1110" Height="604" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="Black" ResizeMode="CanMinimize">
+	<DockPanel x:Name="grdContainer">
+		<Label DockPanel.Dock="Top" Content="Activador de Microfonos" VerticalAlignment="Top" Height="80" Background="#00000000" Foreground="White" Style="{DynamicResource metroLabel}" FontSize="48"/>
+		<l:RoomSelected DockPanel.Dock="Left" />
+	</DockPanel>
 </Window>

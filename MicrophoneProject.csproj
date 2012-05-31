@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ExpressionBlendVersion>4.0.30816.0</ExpressionBlendVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{309ff955-7cb2-41d1-995a-56780d95aa69}</ProjectGuid>
+    <ProjectGuid>{309FF955-7CB2-41D1-995A-56780D95AA69}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <DefaultClrNameSpace>MicrophoneProject</DefaultClrNameSpace>
@@ -56,6 +56,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="LOB\Control.cs" />
+    <Compile Include="LOB\ControlClient.cs" />
+    <Compile Include="LOB\ControlServer.cs" />
+    <Compile Include="LOB\IBoundary.cs" />
+    <Compile Include="RoomSelected.xaml.cs">
+      <DependentUpon>RoomSelected.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
@@ -75,6 +82,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="RoomSelected.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TimePicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -88,16 +99,8 @@
     <None Include="Application.ico">
       <Visible>false</Visible>
     </None>
-    <None Include="fairy_tail_happy_remastered_by_natsudrgonil-d3lj3aw.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="wall03_1280.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="448284-fairy_tail___90__64_.jpg" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.
