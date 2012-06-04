@@ -6,6 +6,9 @@
              mc:Ignorable="d" 
               > <!--Width="880" Height="536"-->
 	<DockPanel x:Name="grdMain">
+        <Grid DockPanel.Dock="Bottom">
+            <TextBox x:Name="txtNotificador" MaxHeight="200" VerticalScrollBarVisibility="Auto" />
+        </Grid>
 	    <Grid DockPanel.Dock="Left">
 	        <Button x:Name="btn13" Margin="138,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
 	        <Button x:Name="btn14" Margin="245,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />

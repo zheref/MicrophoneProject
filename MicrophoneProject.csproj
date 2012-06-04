@@ -100,7 +100,12 @@
       <Visible>false</Visible>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Instartius.Net.Sockets\Instartius.Net.Sockets.csproj">
+      <Project>{A718C490-4A99-4841-A8AD-27B9F4EC6AE9}</Project>
+      <Name>Instartius.Net.Sockets</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	     Other similar extension points exist, see Microsoft.Common.targets.

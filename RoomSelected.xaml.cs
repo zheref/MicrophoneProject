@@ -3,17 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
 using System;
+using System.Net.Sockets;
+using System.IO;
+using Instartius.Net.Sockets;
 
 namespace MicrophoneProject
 {
     /// <summary>
     /// Lógica de interacción para RoomSelected.xaml
     /// </summary>
-    public partial class RoomSelected : UserControl
+    public partial class RoomSelected : UserControl, INETLogger
     {
         Queue<Turno> _cola = new Queue<Turno>();
         List<Microfono> _microfonos;
         DispatcherTimer _timer = new DispatcherTimer();
+        SocketClient _cliente;
+
+        readonly int DIF_ENCENDER_APAGAR = 20;
 
         public RoomSelected()
         {
@@ -21,6 +27,7 @@ namespace MicrophoneProject
             InicializarMicrofonos();
             _timer.Interval = new TimeSpan(0, 0, 1);
             _timer.Tick += new EventHandler(_timer_Tick);
+            _cliente = new SocketClient(this);
         }
         
         public void InicializarMicrofonos()
@@ -38,13 +45,13 @@ namespace MicrophoneProject
             _microfonos.Add(new Microfono { Number = 9, Control = btn9 });
             _microfonos.Add(new Microfono { Number = 10, Control = btn10 });
             _microfonos.Add(new Microfono { Number = 11, Control = btn11 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn12 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn13 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn14 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn15 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn16 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn17 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn18 });
+            _microfonos.Add(new Microfono { Number = 12, Control = btn12 });
+            _microfonos.Add(new Microfono { Number = 13, Control = btn13 });
+            _microfonos.Add(new Microfono { Number = 14, Control = btn14 });
+            _microfonos.Add(new Microfono { Number = 15, Control = btn15 });
+            _microfonos.Add(new Microfono { Number = 16, Control = btn16 });
+            _microfonos.Add(new Microfono { Number = 17, Control = btn17 });
+            _microfonos.Add(new Microfono { Number = 18, Control = btn18 });
             #endregion
         }
 
@@ -93,12 +100,15 @@ namespace MicrophoneProject
         public void TimeConfirmed(object sender, TimePickerEventArgs args)
         {
             long time = (long) (args.SelectedTime * 60);
-            Turno turno = new Turno { Time = time , Mic = args.Mic };
+            Turno turno = new Turno { Time = time, TotalTime = time , Mic = args.Mic };
             _cola.Enqueue(turno);
             grdMain.Children.Remove(sender as TimePicker);
             RefreshMics();
             if (!_timer.IsEnabled)
+            {
+                _cliente.Connect(4510);
                 _timer.Start();
+            }
         }
 
         public void TimeClosed(object sender, TimePickerEventArgs args)
@@ -127,17 +137,23 @@ namespace MicrophoneProject
                 Turno turno = _cola.Peek();
                 if (turno.Time > 0)
                 {
+                    if (turno.TotalTime - turno.Time == 0)
+                        TurnMicOn(turno.Mic.Number);
                     turno.Time--;
                     turno.Mic.Control.Content = (turno.Time).ToString();
                 }
                 else
                 {
+                    TurnMicOff(turno.Mic.Number);
                     _cola.Dequeue();
                     RefreshMics();
                 }
             }
             else
+            {
                 Detenerse();
+                _cliente.Disconnect();
+            }
         }
 
         public long Time
@@ -155,8 +171,34 @@ namespace MicrophoneProject
         void Detenerse()
         {
             _timer.Stop();
-            _cola.Dequeue();
+            Turno t = _cola.Dequeue();
+            TurnMicOff(t.Mic.Number);
             CleanMics();
+        }
+
+        void TurnMicOn(byte num)
+        {
+            _cliente.Send((num).ToString(), true);
+        }
+
+        void TurnMicOff(byte num)
+        {
+            _cliente.Send((num + DIF_ENCENDER_APAGAR).ToString(), true);
+        }
+
+        public void Notify(string msg)
+        {
+            System.Windows.MessageBox.Show(msg);
+        }
+
+        public void Log(string msg)
+        {
+            txtNotificador.AppendText(msg + "\n");
+        }
+
+        public void Clean()
+        {
+            txtNotificador.Clear();
         }
     }
 
@@ -169,6 +211,7 @@ namespace MicrophoneProject
     public class Turno
     {
         public long Time { get; set; }
+        public long TotalTime { get; set; }
         public Microfono Mic { get; set; }
     }
 }
