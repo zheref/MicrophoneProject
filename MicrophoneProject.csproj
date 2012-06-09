@@ -56,16 +56,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AboutInstartius.xaml.cs">
+      <DependentUpon>AboutInstartius.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LOB\Control.cs" />
     <Compile Include="LOB\ControlClient.cs" />
     <Compile Include="LOB\ControlServer.cs" />
     <Compile Include="LOB\IBoundary.cs" />
+    <Compile Include="MicrophoneClient.cs" />
     <Compile Include="RoomSelected.xaml.cs">
       <DependentUpon>RoomSelected.xaml</DependentUpon>
     </Compile>
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
+    <Page Include="AboutInstartius.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -105,6 +113,10 @@
       <Project>{A718C490-4A99-4841-A8AD-27B9F4EC6AE9}</Project>
       <Name>Instartius.Net.Sockets</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logoof.png" />
+    <Resource Include="logoof2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

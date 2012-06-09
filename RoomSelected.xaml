@@ -5,29 +5,41 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
               > <!--Width="880" Height="536"-->
-	<DockPanel x:Name="grdMain">
-        <Grid DockPanel.Dock="Bottom">
-            <TextBox x:Name="txtNotificador" MaxHeight="200" VerticalScrollBarVisibility="Auto" />
+	<Grid x:Name="grdMain">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="70" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="200" />
+		</Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <TextBox x:Name="txtNotificador" MaxHeight="70" VerticalScrollBarVisibility="Auto" Background="Transparent" Foreground="White" FontFamily="Consolas" Visibility="Hidden"/>
         </Grid>
-	    <Grid DockPanel.Dock="Left">
-	        <Button x:Name="btn13" Margin="138,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn14" Margin="245,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn15" Margin="349,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="HorizontalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn16" Margin="453,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn17" Margin="554,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn18" Margin="658,75,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn7" Margin="138,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn8" Margin="245,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn9" Margin="349,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn10" Margin="453,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn11" Margin="554,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn12" Margin="658,171,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="VerticalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn4" Margin="298,267,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="HorizontalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn5" Margin="402,267,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="85" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn6" Margin="506,267,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn2" Margin="298,363,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" d:LayoutOverrides="HorizontalAlignment" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn1" Margin="402,406,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="85" Click="Microfono_Click" FontSize="21.333" />
-	        <Button x:Name="btn3" Margin="506,363,0,0" Template="{DynamicResource metroButton}" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Width="83" Click="Microfono_Click" FontSize="21.333" />
+	    <Grid x:Name="grdSala" DockPanel.Dock="Left" Grid.Row="0" HorizontalAlignment="Center">
+	        <Button x:Name="btn13" Margin="156.047,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn14" Margin="295.094,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.858" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn15" Margin="430.242,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Left" Width="107.859" />
+	        <Button x:Name="btn16" Margin="565.39,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn17" Margin="696.64,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn18" Margin="831.788,23.003,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn7" Margin="156.047,171.993,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" HorizontalAlignment="Left" Width="107.859" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn8" Margin="295.094,171.993,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Left" Width="107.858" />
+	        <Button x:Name="btn9" Margin="430.242,171.993,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn10" Margin="565.39,171.993,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn11" Margin="696.64,171.993,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn12" Margin="17,23,0,0" Template="{DynamicResource metroButton}" Height="108.007" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" d:LayoutOverrides="HorizontalAlignment" />
+	        <Button x:Name="btn4" Margin="8,344,0,0" Template="{DynamicResource metroButton}" Height="108.005" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.858" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn5" Margin="430.242,340.172,0,0" Template="{DynamicResource metroButton}" Height="108.005" VerticalAlignment="Top" Click="Microfono_Click" FontSize="29.333" HorizontalAlignment="Left" Width="110.595" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn6" Margin="831.788,0,0,125.871" Template="{DynamicResource metroButton}" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Left" Width="107.859" Height="108.005" VerticalAlignment="Bottom" />
+	        <Button x:Name="btn2" Margin="295.094,459.994,0,0" Template="{DynamicResource metroButton}" Height="108.006" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.858" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn1" Margin="430.242,478.049,0,0" Template="{DynamicResource metroButton}" Height="108.004" VerticalAlignment="Top" Click="Microfono_Click" FontSize="29.333" HorizontalAlignment="Left" Width="110.595" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
+	        <Button x:Name="btn3" Margin="565.39,459.994,0,0" Template="{DynamicResource metroButton}" Height="108.006" VerticalAlignment="Top" HorizontalAlignment="Left" Width="107.859" Click="Microfono_Click" FontSize="29.333" TouchDown="Microfono_TouchDown" Style="{DynamicResource metroButtonDefaultStyle}" />
 	    </Grid>
-	</DockPanel>
+	    <Button x:Name="btnLogSeen" Content="Mostrar Log" Grid.Column="1" Margin="39,13.765,38,8" Grid.Row="1" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Click="btnLogSeen_Click" FontSize="18.667"/>
+	    <Button x:Name="btnFreeMode" Content="Modo Libre" Grid.Column="1" Margin="39,21.765,38,0" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Click="btnFreeMode_Click" Height="58.235" VerticalAlignment="Top" FontSize="18.667"/>
+	    <Button x:Name="btnTurnAlloff" Content="Apagar Todos" Grid.Column="1" Margin="39,84,38.443,0" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Click="btnTurnAlloff_Click" Height="60" VerticalAlignment="Top" FontSize="18.667" d:LayoutOverrides="Width"/>
+	    <Button x:Name="btnAbout" Content="Acerca de" Grid.Column="1" Margin="39,0,38,8" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Height="50.053" VerticalAlignment="Bottom" Click="btnAbout_Click" FontSize="18.667"/>
+	</Grid>
 </UserControl>

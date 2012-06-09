@@ -96,7 +96,8 @@
 	<Style x:Key="metroCaption" TargetType="TextBlock">
 		<Setter Property="FontFamily" Value="{StaticResource metroFont}" />
 		<Setter Property="FontWeight" Value="{StaticResource metroWeight}" />
-		<Setter Property="FontSize" Value="18" />
+		<Setter Property="FontSize" Value="40" />
+		<Setter Property="Foreground" Value="White" />
 	</Style>
 	
 	<Style x:Key="metroTextBox" TargetType="TextBox">
@@ -164,15 +165,14 @@
 	
 	<!-- ControlTemplates ********************************************************************************** -->
 	<ControlTemplate x:Key="metroButton" TargetType="{x:Type Button}">
-		<Border BorderThickness="3" BorderBrush="White" Padding="3,3,3,3" x:Name="brdBack">
+		<Border BorderThickness="3" BorderBrush="White" Padding="3,3,3,3" x:Name="brdBack" Background="{TemplateBinding Button.Background}">
 			<TextBlock 	Text="{TemplateBinding Button.Content}" 
 						HorizontalAlignment="Center" 
 						VerticalAlignment="Center"
 						Style="{StaticResource metroText}"
-						Foreground="White" x:Name="txbText"/>
-			<Border.Background>
-				<SolidColorBrush Opacity="0.1" Color="White" />
-			</Border.Background>
+						Foreground="{TemplateBinding Button.Foreground}" x:Name="txbText"
+						FontSize="{TemplateBinding Button.FontSize}"
+						/>
 		</Border>
 		<ControlTemplate.Triggers>
 			<Trigger Property="IsMouseOver" Value="True">
@@ -185,6 +185,12 @@
 			</Trigger>
 		</ControlTemplate.Triggers>
 	</ControlTemplate>
+	
+	<Style x:Key="metroButtonDefaultStyle" TargetType="{x:Type Button}">
+		<Setter Property="FontSize" Value="14" />
+		<Setter Property="Background" Value="{StaticResource BackButton}" />
+		<Setter Property="Foreground" Value="White" />
+	</Style>
 	
 	<ControlTemplate x:Key="metroVerticalSlider" TargetType="{x:Type Slider}">
 		<Border BorderThickness="3" BorderBrush="White">

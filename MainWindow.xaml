@@ -7,7 +7,9 @@
 		Title="Microphone Project Title"
 		Width="1110" Height="604" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="Black" ResizeMode="CanMinimize">
 	<DockPanel x:Name="grdContainer">
-		<Label DockPanel.Dock="Top" Content="Activador de Microfonos" VerticalAlignment="Top" Height="80" Background="#00000000" Foreground="White" Style="{DynamicResource metroLabel}" FontSize="48"/>
-		<l:RoomSelected DockPanel.Dock="Left" />
+		<Grid DockPanel.Dock="Top">
+			<Label Content="Activador de Microfonos" VerticalAlignment="Top" Height="80" Background="#00000000" Foreground="White" Style="{DynamicResource metroLabel}" FontSize="48"/>
+		</Grid>
+		<l:RoomSelected />
 	</DockPanel>
 </Window>

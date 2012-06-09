@@ -1,11 +1,12 @@
-﻿using System.Windows.Controls;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Threading;
-using System;
-using System.Net.Sockets;
-using System.IO;
 using Instartius.Net.Sockets;
+using System.Windows.Input;
+using System.Windows;
+using System.Windows.Media;
 
 namespace MicrophoneProject
 {
@@ -14,204 +15,263 @@ namespace MicrophoneProject
     /// </summary>
     public partial class RoomSelected : UserControl, INETLogger
     {
-        Queue<Turno> _cola = new Queue<Turno>();
-        List<Microfono> _microfonos;
-        DispatcherTimer _timer = new DispatcherTimer();
-        SocketClient _cliente;
-
-        readonly int DIF_ENCENDER_APAGAR = 20;
+        MicrophoneClient b;
 
         public RoomSelected()
         {
             InitializeComponent();
+            //PreConf();
+            b = new MicrophoneClient(this);
             InicializarMicrofonos();
-            _timer.Interval = new TimeSpan(0, 0, 1);
-            _timer.Tick += new EventHandler(_timer_Tick);
-            _cliente = new SocketClient(this);
         }
-        
-        public void InicializarMicrofonos()
+
+        #region Preconfiguracion
+        /// <summary>
+        /// Preconfigura los botones para que desencadene evento automaticamente tras un touch
+        /// </summary>
+        private void PreConf()
         {
-            _microfonos = new List<Microfono>();
-            #region
-            _microfonos.Add(new Microfono { Number = 1, Control = btn1 });
-            _microfonos.Add(new Microfono { Number = 2, Control = btn2 });
-            _microfonos.Add(new Microfono { Number = 3, Control = btn3 });
-            _microfonos.Add(new Microfono { Number = 4, Control = btn4 });
-            _microfonos.Add(new Microfono { Number = 5, Control = btn5 });
-            _microfonos.Add(new Microfono { Number = 6, Control = btn6 });
-            _microfonos.Add(new Microfono { Number = 7, Control = btn7 });
-            _microfonos.Add(new Microfono { Number = 8, Control = btn8 });
-            _microfonos.Add(new Microfono { Number = 9, Control = btn9 });
-            _microfonos.Add(new Microfono { Number = 10, Control = btn10 });
-            _microfonos.Add(new Microfono { Number = 11, Control = btn11 });
-            _microfonos.Add(new Microfono { Number = 12, Control = btn12 });
-            _microfonos.Add(new Microfono { Number = 13, Control = btn13 });
-            _microfonos.Add(new Microfono { Number = 14, Control = btn14 });
-            _microfonos.Add(new Microfono { Number = 15, Control = btn15 });
-            _microfonos.Add(new Microfono { Number = 16, Control = btn16 });
-            _microfonos.Add(new Microfono { Number = 17, Control = btn17 });
-            _microfonos.Add(new Microfono { Number = 18, Control = btn18 });
+            #region Stylus Preconf
+            Stylus.SetIsPressAndHoldEnabled(btn1, false);
+            Stylus.SetIsPressAndHoldEnabled(btn2, false);
+            Stylus.SetIsPressAndHoldEnabled(btn3, false);
+            Stylus.SetIsPressAndHoldEnabled(btn4, false);
+            Stylus.SetIsPressAndHoldEnabled(btn5, false);
+            Stylus.SetIsPressAndHoldEnabled(btn6, false);
+            Stylus.SetIsPressAndHoldEnabled(btn7, false);
+            Stylus.SetIsPressAndHoldEnabled(btn8, false);
+            Stylus.SetIsPressAndHoldEnabled(btn9, false);
+            Stylus.SetIsPressAndHoldEnabled(btn10, false);
+            Stylus.SetIsPressAndHoldEnabled(btn11, false);
+            Stylus.SetIsPressAndHoldEnabled(btn12, false);
+            Stylus.SetIsPressAndHoldEnabled(btn13, false);
+            Stylus.SetIsPressAndHoldEnabled(btn14, false);
+            Stylus.SetIsPressAndHoldEnabled(btn15, false);
+            Stylus.SetIsPressAndHoldEnabled(btn16, false);
+            Stylus.SetIsPressAndHoldEnabled(btn17, false);
+            Stylus.SetIsPressAndHoldEnabled(btn18, false);
+            Stylus.SetIsPressAndHoldEnabled(btn10, false);
             #endregion
         }
-
-        private void Microfono_Click(object sender, System.Windows.RoutedEventArgs e)
+        
+        /// <summary>
+        /// Inicializa los microfonos y les establece su control de boton asociado
+        /// </summary>
+        public void InicializarMicrofonos()
         {
-            Button but = sender as Button;
-            var mics = from m in _microfonos
-                       where m.Control == but
-                       select m;
-            Microfono mic = mics.Single();
-            var turns = from t in _cola
-                        where t.Mic == mic
-                        select t;
-            if (turns.ToList().Count == 0)
+            #region Inicializacion de Microfonos
+            b.AgregarMicrofono(new Microfono { Number = 1, Control = btn1 });
+            b.AgregarMicrofono(new Microfono { Number = 2, Control = btn2 });
+            b.AgregarMicrofono(new Microfono { Number = 3, Control = btn3 });
+            b.AgregarMicrofono(new Microfono { Number = 4, Control = btn4 });
+            b.AgregarMicrofono(new Microfono { Number = 5, Control = btn5 });
+            b.AgregarMicrofono(new Microfono { Number = 6, Control = btn6 });
+            b.AgregarMicrofono(new Microfono { Number = 7, Control = btn7 });
+            b.AgregarMicrofono(new Microfono { Number = 8, Control = btn8 });
+            b.AgregarMicrofono(new Microfono { Number = 9, Control = btn9 });
+            b.AgregarMicrofono(new Microfono { Number = 10, Control = btn10 });
+            b.AgregarMicrofono(new Microfono { Number = 11, Control = btn11 });
+            b.AgregarMicrofono(new Microfono { Number = 12, Control = btn12 });
+            b.AgregarMicrofono(new Microfono { Number = 13, Control = btn13 });
+            b.AgregarMicrofono(new Microfono { Number = 14, Control = btn14 });
+            b.AgregarMicrofono(new Microfono { Number = 15, Control = btn15 });
+            b.AgregarMicrofono(new Microfono { Number = 16, Control = btn16 });
+            b.AgregarMicrofono(new Microfono { Number = 17, Control = btn17 });
+            b.AgregarMicrofono(new Microfono { Number = 18, Control = btn18 });
+            #endregion
+        }
+        #endregion
+
+        #region Gestion Timepicker
+        /// <summary>
+        /// Muestra el control de Time Picker para el microfono seleccionado
+        /// </summary>
+        /// <param name="mic">El microfono al que se le desea asignar un tiempo como turno</param>
+        public void MostrarControlTiempo(Microfono mic)
+        {
+            TimePicker tmpick = new TimePicker() { Mic = mic };
+            tmpick.Confirm += new EventHandler<TimePickerEventArgs>(TimeConfirmed);
+            tmpick.Close += new EventHandler(TimeClosed);
+            CleanMain();
+            grdMain.Children.Remove(grdSala);
+            grdMain.Children.Add(tmpick);
+            Grid.SetRow(tmpick, 0);
+        }
+
+        /// <summary>
+        /// Ocultamos el control TimePicker del contenedor una vez ya lo hemos usado exitosamente
+        /// </summary>
+        /// <param name="tm">El control TimePicker a remover del contenedor</param>
+        public void OcultarControlTiempo(TimePicker tm) 
+        {
+            CleanMain();
+            grdMain.Children.Remove(tm);
+            MostrarTableroSala();
+        }
+        #endregion
+
+        #region Muestreos
+        void MostrarTableroSala()
+        {
+            grdMain.Children.Add(grdSala);
+            Grid.SetRow(grdSala, 0);
+        }
+        #endregion
+
+        #region Refresh
+        public void ActualizarBotonesMicrofonos()
+        {
+            LimpiarTextoBotonesMicrofonos();
+            if (b.IsFreeMode)
             {
-                TimePicker tmpick = new TimePicker() { Mic = mic };
-                tmpick.Confirm += new EventHandler<TimePickerEventArgs>(TimeConfirmed);
-                tmpick.Close += new EventHandler<TimePickerEventArgs>(TimeConfirmed);
-                grdMain.Children.Add(tmpick);
-                DockPanel.SetDock(tmpick, Dock.Right);
+                List<Microfono> mics = b.FreeMicrofonos;
+                foreach (Microfono mic in mics)
+                {
+                    mic.Control.Content = "LIBRE";
+                }
             }
             else
             {
-                QuitarDeLista(turns.Single());
+                List<Turno> turnos = b.Turnos;
+                for (int i = 0; i < turnos.Count; i++)
+                    turnos[i].Mic.Control.Content = (i + 1).ToString();
             }
         }
 
-        private void QuitarDeLista(Turno turno)
+        public void LimpiarTextoBotonesMicrofonos()
         {
-            List<Turno> turnos = _cola.ToList();
-            turnos.Remove(turno);
-            _cola.Clear();
-            foreach (Turno t in turnos)
-                _cola.Enqueue(t);
-            RefreshMics();
-        }
-
-        public void Enqueue(object sender, EventArgs e)
-        {
-            var mics = from m in _microfonos
-                       where m.Control == (sender as Button)
-                       select m;
-            Microfono mic = mics.Single();
-        }
-
-        public void TimeConfirmed(object sender, TimePickerEventArgs args)
-        {
-            long time = (long) (args.SelectedTime * 60);
-            Turno turno = new Turno { Time = time, TotalTime = time , Mic = args.Mic };
-            _cola.Enqueue(turno);
-            grdMain.Children.Remove(sender as TimePicker);
-            RefreshMics();
-            if (!_timer.IsEnabled)
-            {
-                _cliente.Connect(4510);
-                _timer.Start();
-            }
-        }
-
-        public void TimeClosed(object sender, TimePickerEventArgs args)
-        {
-
-        }
-
-        public void RefreshMics()
-        {
-            CleanMics();
-            List<Turno> turnos = _cola.ToList();
-            for (int i = 0; i < turnos.Count; i++)
-                turnos[i].Mic.Control.Content = (i + 1).ToString();
-        }
-
-        private void CleanMics()
-        {
-            foreach (Microfono m in _microfonos)
+            foreach (Microfono m in b.Microfonos)
                 m.Control.Content = string.Empty;
         }
+        #endregion
 
-        void _timer_Tick(object sender, EventArgs e)
+        #region Eventos
+        /// <summary>
+        /// Evento para cuando se hace click en el boton asociado a un microfono
+        /// </summary>
+        /// <param name="sender">El boton que desencadeno el evento</param>
+        /// <param name="e">Los parametros subyacentes detras de la operacion del evento</param>
+        void Microfono_Click(object sender, RoutedEventArgs e) { b.SeleccionDeMicrofono(sender as Button); }
+
+        /// <summary>
+        /// Evento para cuando se hace touch en el boton asociado a un microfono
+        /// </summary>
+        /// <param name="sender">El boton que desencadeno el evento</param>
+        /// <param name="e">Los parametros subyacentes detras de la operacion del evento</param>
+        void Microfono_TouchDown(object sender, TouchEventArgs e) { /*b.SeleccionDeMicrofono(sender as Button);*/ }
+
+        /// <summary>
+        /// Evento para cuando se confirma un tiempo en el controlador TimePicker
+        /// </summary>
+        /// <param name="sender">El TimePicker que desencadeno el evento</param>
+        /// <param name="args">Los argumentos necesarios (microfono y tiempo seleccionado)</param>
+        public void TimeConfirmed(object sender, TimePickerEventArgs args)
         {
-            if (Time > 0)
+            OcultarControlTiempo(sender as TimePicker);
+            b.AgregarACola(args.SelectedTime, args.Mic);
+        }
+
+        /// <summary>
+        /// Evento para cuando se cancela la operacion de seleccion de tiempo para el controlador TimePicker
+        /// </summary>
+        /// <param name="sender">El TimePicker que desencadeno el evento</param>
+        /// <param name="args">NULL</param>
+        public void TimeClosed(object sender, EventArgs args)
+        {
+            OcultarControlTiempo(sender as TimePicker);
+            ActualizarBotonesMicrofonos();
+        }
+
+        private void btnLogSeen_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (txtNotificador.IsVisible)
             {
-                Turno turno = _cola.Peek();
-                if (turno.Time > 0)
-                {
-                    if (turno.TotalTime - turno.Time == 0)
-                        TurnMicOn(turno.Mic.Number);
-                    turno.Time--;
-                    turno.Mic.Control.Content = (turno.Time).ToString();
-                }
-                else
-                {
-                    TurnMicOff(turno.Mic.Number);
-                    _cola.Dequeue();
-                    RefreshMics();
-                }
+                txtNotificador.Visibility = System.Windows.Visibility.Hidden;
+                btnLogSeen.Content = "Mostrar Log";
             }
             else
             {
-                Detenerse();
-                _cliente.Disconnect();
+                txtNotificador.Visibility = System.Windows.Visibility.Visible;
+                btnLogSeen.Content = "Ocultar Log";
             }
+
         }
 
-        public long Time
+        private void btnFreeMode_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            get
+            SolidColorBrush brush = new SolidColorBrush();
+            brush.Color = Colors.White;
+            if (b.IsFreeMode)
             {
-                long time = 0;
-                List<Turno> turnos = _cola.ToList();
-                foreach (Turno t in turnos)
-                    time += t.Time;
-                return time;
+                b.IsFreeMode = false;
+                brush.Opacity = 0.1;
+                btnFreeMode.Background = brush;
+                btnFreeMode.Foreground = new SolidColorBrush(Colors.White);
+            }
+            else
+            {
+                b.IsFreeMode = true;
+                brush.Opacity = 1;
+                btnFreeMode.Background = brush;
+                btnFreeMode.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
+        #endregion
 
-        void Detenerse()
+        #region  INETLogger Contracts
+        /// <summary>
+        /// Notifica de manera emergente el mensaje
+        /// </summary>
+        /// <param name="msg">El mensaje a notificar</param>
+        public void Notify(string msg) { System.Windows.MessageBox.Show(msg); }
+
+        /// <summary>
+        /// Imprime en el registro la transaccion descrita en el mensaje
+        /// </summary>
+        /// <param name="msg">El mensaje que describe la transaccion</param>
+        public void Log(string msg) { txtNotificador.AppendText(msg + "\n"); }
+
+        /// <summary>
+        /// Limpia el registro
+        /// </summary>
+        public void Clean() { txtNotificador.Clear(); }
+
+        private void btnTurnAlloff_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _timer.Stop();
-            Turno t = _cola.Dequeue();
-            TurnMicOff(t.Mic.Number);
-            CleanMics();
+            b.OrdenApagarTodo();
         }
 
-        void TurnMicOn(byte num)
+        private void btnAbout_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _cliente.Send((num).ToString(), true);
+            CleanMain();
+            grdMain.Children.Remove(grdSala);
+            AboutInstartius ins = new AboutInstartius();
+            ins.Close += new EventHandler(ins_Close);
+            grdMain.Children.Add(ins);
+            Grid.SetRow(ins, 0);
         }
 
-        void TurnMicOff(byte num)
+        void ins_Close(object sender, EventArgs e)
         {
-            _cliente.Send((num + DIF_ENCENDER_APAGAR).ToString(), true);
+            CleanMain();
+            grdMain.Children.Remove(sender as AboutInstartius);
+            MostrarTableroSala();
         }
 
-        public void Notify(string msg)
+        void CleanMain()
         {
-            System.Windows.MessageBox.Show(msg);
+            /*
+            grdMain.Children.Clear();
+            grdMain.Children.Add(txtNotificador);
+            grdMain.Children.Add(btnFreeMode);
+            grdMain.Children.Add(btnTurnAlloff);
+            grdMain.Children.Add(btnAbout);
+            grdMain.Children.Add(btnLogSeen);
+             * */
         }
 
-        public void Log(string msg)
-        {
-            txtNotificador.AppendText(msg + "\n");
-        }
+        
+        #endregion
 
-        public void Clean()
-        {
-            txtNotificador.Clear();
-        }
-    }
-
-    public class Microfono
-    {
-        public byte Number { get; set; }
-        public Button Control { get; set; }
-    }
-
-    public class Turno
-    {
-        public long Time { get; set; }
-        public long TotalTime { get; set; }
-        public Microfono Mic { get; set; }
     }
 }

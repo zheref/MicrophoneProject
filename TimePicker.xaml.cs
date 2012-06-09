@@ -1,15 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MicrophoneProject
 {
@@ -27,7 +17,7 @@ namespace MicrophoneProject
         public double SelectedTime { get; set; }
 
         public event EventHandler<TimePickerEventArgs> Confirm;
-        public event EventHandler<TimePickerEventArgs> Close;
+        public event EventHandler Close;
 
 		private void Slider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
@@ -48,7 +38,12 @@ namespace MicrophoneProject
             Button boton = sender as Button;
             TimePickerEventArgs t = null;
             if (boton == btnFree)
-                t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = this.SelectedTime };
+            {
+                if(this.SelectedTime == 0.0 || this.SelectedTime == 5.0)
+                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = sldPicker.Maximum * 10 };
+                else
+                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = this.SelectedTime };
+            }
             else if (boton == btnOne)
                 t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 1 };
             else if (boton == btnHalf)
@@ -61,8 +56,7 @@ namespace MicrophoneProject
 
 		private void btnCancel_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-            TimePickerEventArgs t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = this.SelectedTime };
-            Close(this, t);
+            Close(this, null);
 		}
 	}
 

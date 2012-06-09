@@ -5,14 +5,15 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="MicrophoneProject.TimePicker"
-	x:Name="UserControl" Height="256" Width="280">
+	x:Name="UserControl" Height="416" Width="688">
 
 	<Grid x:Name="LayoutRoot">
-		<Slider x:Name="sldPicker" Orientation="Vertical" Margin="122,8,0,0" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource metroVerticalSlider}" HorizontalAlignment="Left" Width="83" Maximum="5" ValueChanged="Slider_ValueChanged" Height="239.84" VerticalAlignment="Top" />
-		<Button x:Name="btnTen" Content="10 seg" HorizontalAlignment="Left" Margin="8,190.88,0,0" VerticalAlignment="Top" Width="110" ClickMode="Press" Height="56.96" Template="{DynamicResource metroButton}" Click="btnConfirm_Click" />
-		<Button x:Name="btnHalf" Content="30 seg" HorizontalAlignment="Left" Margin="8,129.92,0,0" Width="110" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Top" Click="btnConfirm_Click" />
-		<Button x:Name="btnOne" Content="1 min" HorizontalAlignment="Left" Margin="8,68.96,0,0" Width="110" ClickMode="Press" Template="{DynamicResource metroButton}" d:LayoutOverrides="HorizontalAlignment" Height="56.96" VerticalAlignment="Top" Click="btnConfirm_Click" />
-		<Button x:Name="btnFree" Content="Libre" HorizontalAlignment="Left" Margin="8,8,0,0" Width="110" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment" Click="btnConfirm_Click" />
-		<Button x:Name="btnCancel" Content="Esc" Margin="0,8,8,0" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Top" HorizontalAlignment="Right" Width="63" Click="btnCancel_Click"  />
+		<Slider x:Name="sldPicker" Orientation="Vertical" Margin="0,0,157,8" RenderTransformOrigin="0.5,0.5" Template="{DynamicResource metroVerticalSlider}" HorizontalAlignment="Right" Width="115" Maximum="5" ValueChanged="Slider_ValueChanged" Height="400" VerticalAlignment="Bottom" />
+		<Button x:Name="btnTen" Content="10 seg" HorizontalAlignment="Right" Margin="0,0,8,8" Width="131" ClickMode="Press" Template="{DynamicResource metroButton}" Click="btnConfirm_Click" FontSize="18.667" Style="{DynamicResource metroButtonDefaultStyle}" Height="56.96" VerticalAlignment="Bottom" />
+		<Button x:Name="btnHalf" Content="30 seg" Margin="0,0,8,68.96" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Bottom" Click="btnConfirm_Click" FontSize="18.667" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Right" Width="131" />
+		<Button x:Name="btnOne" Content="1 min" Margin="0,0,8,129.92" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Bottom" Click="btnConfirm_Click" FontSize="18.667" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Right" Width="131" />
+		<Button x:Name="btnFree" Content="Libre" Margin="0,121.12,8,216" ClickMode="Press" Template="{DynamicResource metroButton}" Click="btnConfirm_Click" FontSize="18.667" Style="{DynamicResource metroButtonDefaultStyle}" HorizontalAlignment="Right" Width="131" />
+		<Button x:Name="btnCancel" Content="Cancelar" Margin="0,8,8,0" ClickMode="Press" Template="{DynamicResource metroButton}" Height="56.96" VerticalAlignment="Top" HorizontalAlignment="Right" Width="131" Click="btnCancel_Click" FontSize="18.667" Style="{DynamicResource metroButtonDefaultStyle}"  />
+		<TextBlock Text="¿Cuanto tiempo desea darle al turno?" HorizontalAlignment="Left" Margin="8,132.685,0,0" VerticalAlignment="Top" Style="{DynamicResource metroCaption}" Width="392" TextWrapping="WrapWithOverflow" TextAlignment="Center"/>
 	</Grid>
 </UserControl>
