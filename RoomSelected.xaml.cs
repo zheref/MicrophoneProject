@@ -23,6 +23,17 @@ namespace MicrophoneProject
             //PreConf();
             b = new MicrophoneClient(this);
             InicializarMicrofonos();
+            b.Connect();
+            if (b.Conectado)
+            {
+                btnConnect.Content = "Conectado";
+                btnConf.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                btnConnect.Content = "Desconectado";
+                btnConf.Visibility = Visibility.Visible;
+            }
         }
 
         #region Preconfiguracion
@@ -216,25 +227,6 @@ namespace MicrophoneProject
                 btnFreeMode.Foreground = new SolidColorBrush(Colors.Black);
             }
         }
-        #endregion
-
-        #region  INETLogger Contracts
-        /// <summary>
-        /// Notifica de manera emergente el mensaje
-        /// </summary>
-        /// <param name="msg">El mensaje a notificar</param>
-        public void Notify(string msg) { System.Windows.MessageBox.Show(msg); }
-
-        /// <summary>
-        /// Imprime en el registro la transaccion descrita en el mensaje
-        /// </summary>
-        /// <param name="msg">El mensaje que describe la transaccion</param>
-        public void Log(string msg) { txtNotificador.AppendText(msg + "\n"); }
-
-        /// <summary>
-        /// Limpia el registro
-        /// </summary>
-        public void Clean() { txtNotificador.Clear(); }
 
         private void btnTurnAlloff_Click(object sender, System.Windows.RoutedEventArgs e)
         {
@@ -258,6 +250,30 @@ namespace MicrophoneProject
             MostrarTableroSala();
         }
 
+        void btnConf_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            CleanMain();
+            grdMain.Children.Remove(grdSala);
+            IPConfiguration conf = new IPConfiguration();
+            conf.Close += new EventHandler(conf_Close);
+            grdMain.Children.Add(conf);
+            Grid.SetRow(conf, 0);
+        }
+
+        void conf_Close(object sender, EventArgs e)
+        {
+            CleanMain();
+            grdMain.Children.Remove(sender as IPConfiguration);
+            MostrarTableroSala();
+        }
+
+        private void btnConnect_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            bool connected = b.Connect();
+            if (connected)
+                btnConnect.Content = "Conectado";
+        }
+
         void CleanMain()
         {
             /*
@@ -269,8 +285,25 @@ namespace MicrophoneProject
             grdMain.Children.Add(btnLogSeen);
              * */
         }
+        #endregion
 
-        
+        #region  INETLogger Contracts
+        /// <summary>
+        /// Notifica de manera emergente el mensaje
+        /// </summary>
+        /// <param name="msg">El mensaje a notificar</param>
+        public void Notify(string msg) { System.Windows.MessageBox.Show(msg); }
+
+        /// <summary>
+        /// Imprime en el registro la transaccion descrita en el mensaje
+        /// </summary>
+        /// <param name="msg">El mensaje que describe la transaccion</param>
+        public void Log(string msg) { txtNotificador.AppendText(msg + "\n"); }
+
+        /// <summary>
+        /// Limpia el registro
+        /// </summary>
+        public void Clean() { txtNotificador.Clear(); }
         #endregion
 
     }

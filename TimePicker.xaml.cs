@@ -40,7 +40,7 @@ namespace MicrophoneProject
             if (boton == btnFree)
             {
                 if(this.SelectedTime == 0.0 || this.SelectedTime == 5.0)
-                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = sldPicker.Maximum * 10 };
+                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = sldPicker.Maximum * 10 * 60 };
                 else
                     t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = this.SelectedTime };
             }

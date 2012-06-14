@@ -4,41 +4,66 @@ using System.Windows.Threading;
 using Instartius.Net.Sockets;
 using System;
 using System.Linq;
+using System.Data;
 
 namespace MicrophoneProject
 {
     public class MicrophoneClient
     {
-        DispatcherTimer _timer = new DispatcherTimer();
-        Queue<Turno> _cola = new Queue<Turno>();
-        List<Microfono> _microfonos;
-        List<Microfono> _activeFreeMics = new List<Microfono>();
-        bool isfreemode = false;
-        SocketClient _cliente;
-        RoomSelected _p;
-
-        #region Bindings semanticos
         readonly int DIF_ENCENDER_APAGAR = 30;
 
-        public bool IsFreeMode 
+        RoomSelected _view;
+        SocketClient _cliente;
+        List<Microfono> _microfonos;
+        bool _isfreemode = false;
+        bool _conectado = false;
+
+        #region Campos de Modo Tiempo
+        DispatcherTimer _timer = new DispatcherTimer();
+        Queue<Turno> _cola = new Queue<Turno>();
+        #endregion
+
+        #region Campos de Modo Libre
+        List<Microfono> _activeFreeMics = new List<Microfono>();
+        #endregion
+
+        public MicrophoneClient(RoomSelected roomselecter)
+        {
+            this._view = roomselecter;
+            _timer.Interval = new TimeSpan(0, 0, 1);
+            _timer.Tick += new EventHandler(_timer_Tick);
+            _cliente = new SocketClient(roomselecter);
+            _microfonos = new List<Microfono>();
+            Conectado = ConectarseAServidor();
+            if (Conectado)
+                ApagarTodos();
+        }
+        
+        /// <summary>
+        /// Get true if the applicacion is in free non-timed mode. False else.
+        /// Sets to change its state.
+        /// </summary>
+        public bool IsFreeMode
         { 
-            get { return isfreemode; }
+            get { return _isfreemode; }
             set
             {
-                isfreemode = value;
-                if (value == true)
+                _isfreemode = value;
+                if (value)
                 {
                     _cola.Clear();
                     if (_timer.IsEnabled)
                         _timer.Stop();
-                    ApagarTodos();
+                    if(Conectado)
+                        ApagarTodos();
                 }
                 else
                 {
                     _activeFreeMics.Clear();
-                    ApagarTodos();
+                    if(Conectado)
+                        ApagarTodos();
                 }
-                _p.LimpiarTextoBotonesMicrofonos();
+                _view.LimpiarTextoBotonesMicrofonos();
             }
         }
         
@@ -47,18 +72,106 @@ namespace MicrophoneProject
         public List<Microfono> Microfonos { get { return _microfonos; } }
 
         public List<Microfono> FreeMicrofonos { get { return _activeFreeMics; } }
+
+        #region Conexion Cliente-Servidor
+        public bool Conectado
+        {
+            get { return _conectado; }
+            set
+            {
+                if (value)
+                {
+                    foreach (Microfono mic in _microfonos)
+                        mic.Control.IsEnabled = true;
+                }
+                else
+                {
+                    foreach (Microfono mic in _microfonos)
+                        mic.Control.IsEnabled = false;
+                }
+                _conectado = value;
+            }
+        }
+
+        public bool Connect()
+        {
+            if (!Conectado)
+            {
+                this.Conectado = ConectarseAServidor();
+                return this.Conectado;
+            }
+            else
+            {
+                _view.Notify("El servidor ya se encuentra conectado");
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Intenta conectarse el cliente al servidor correspondiente
+        /// </summary>
+        /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
+        bool ConectarseAServidor()
+        {
+            if (_cliente.Connected)
+            {
+                _view.Log("Esta intentando conectar el cliente al servidor, pero este ya esta conectado");
+                return true;
+            }
+            else return _cliente.Connect(LeerPuertoXML(), LeerIPXML());
+        }
+
+        /// <summary>
+        /// Intenta desconectar el cliente del servidor correspondiente
+        /// </summary>
+        /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
+        bool DesconectarseDeServidor()
+        {
+            if (_cliente.Connected)
+                return _cliente.Disconnect();
+            else
+            {
+                _view.Log("Esta intentando conectar el cliente al servidor, pero este ya esta conectado");
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Leer desde el archivo "networkconfig.xml" la configuracion de la IP
+        /// </summary>
+        /// <returns></returns>
+        byte[] LeerIPXML()
+        {
+            DataSet dataset = new DataSet();
+            dataset.ReadXml("networkconfig.xml");
+            DataRow dr = dataset.Tables["network"].Rows[0];
+            string sip = dr["ip"].ToString();
+            string[] ips = sip.Split('.');
+            byte[] ip = new byte[0];
+            if (ips.Length == 4)
+            {
+                ip = new byte[4];
+                for (int i = 0; i < ips.Length; i++)
+                    ip[i] = byte.Parse(ips[i]);
+            }
+            return ip;
+        }
+
+        /// <summary>
+        /// Lee desde el archivo "networkconfig.xml" la configuración del puerto
+        /// </summary>
+        /// <returns></returns>
+        int LeerPuertoXML()
+        {
+            DataSet dataset = new DataSet();
+            dataset.ReadXml("networkconfig.xml");
+            DataRow dr = dataset.Tables["network"].Rows[0];
+            string sport = dr["port"].ToString();
+            return int.Parse(sport);
+        }
         #endregion
 
-        public MicrophoneClient(RoomSelected roomselecter)
-        {
-            this._p = roomselecter;
-            _timer.Interval = new TimeSpan(0, 0, 1);
-            _timer.Tick += new EventHandler(_timer_Tick);
-            _cliente = new SocketClient(roomselecter);
-            _microfonos = new List<Microfono>();
-            ConectarseAServidor();
-            ApagarTodos();
-        }
+        
 
         public void AgregarMicrofono(Microfono mic) { _microfonos.Add(mic); }
 
@@ -77,13 +190,13 @@ namespace MicrophoneProject
                 if (MicrofonoEstaFreeActivo(mic))
                 {
                     _activeFreeMics.Remove(mic);
-                    _p.ActualizarBotonesMicrofonos();
+                    _view.ActualizarBotonesMicrofonos();
                     ApagarMicrofono(mic.Number);
                 }
                 else
                 {
                     _activeFreeMics.Add(mic);
-                    _p.ActualizarBotonesMicrofonos();
+                    _view.ActualizarBotonesMicrofonos();
                     EncenderMicrofono(mic.Number);
                 }
             }
@@ -107,10 +220,10 @@ namespace MicrophoneProject
                 if (_timer.IsEnabled)
                     _timer.Stop();
             }
-            _p.LimpiarTextoBotonesMicrofonos();
+            _view.LimpiarTextoBotonesMicrofonos();
         }
 
-        void MostrarControlTiempo(Microfono mic) { _p.MostrarControlTiempo(mic); }
+        void MostrarControlTiempo(Microfono mic) { _view.MostrarControlTiempo(mic); }
 
         Turno TurnoAsignadoDeMicrofono(Microfono mic)
         {
@@ -137,14 +250,11 @@ namespace MicrophoneProject
                 {
                     ApagarMicrofono(turno.Mic.Number);
                     _cola.Dequeue();
-                    _p.ActualizarBotonesMicrofonos();
+                    _view.ActualizarBotonesMicrofonos();
                 }
             }
             else
-            {
                 Detenerse();
-                DesconectarseDeServidor();
-            }
         }
 
         public long Time
@@ -164,7 +274,7 @@ namespace MicrophoneProject
             _timer.Stop();
             Turno t = _cola.Dequeue();
             ApagarMicrofono(t.Mic.Number);
-            _p.LimpiarTextoBotonesMicrofonos();
+            _view.LimpiarTextoBotonesMicrofonos();
         }
 
         bool MicrofonoEstaEnCola(Microfono mic)
@@ -188,7 +298,7 @@ namespace MicrophoneProject
             long time = (long)(selectedTime * 60);
             Turno turno = new Turno { Time = time, TotalTime = time, Mic = mic };
             _cola.Enqueue(turno);
-            _p.ActualizarBotonesMicrofonos();
+            _view.ActualizarBotonesMicrofonos();
             if (!_timer.IsEnabled)
             {
                 ConectarseAServidor();
@@ -208,7 +318,7 @@ namespace MicrophoneProject
                 _timer.Stop();
                 DesconectarseDeServidor();
             }
-            _p.ActualizarBotonesMicrofonos();
+            _view.ActualizarBotonesMicrofonos();
         }
 
         bool EstaCorriendoTurno(Turno turno)
@@ -229,7 +339,7 @@ namespace MicrophoneProject
             if (_cliente.Connected)
                 _cliente.Send((num).ToString(), true);
             else
-                _p.Notify("Intentando enviar instruccion de ON pero no se encuentra un servidor conectado. Por favor arranque o reinicie el servidor correspondiente.");
+                _view.Notify("Intentando enviar instruccion de ON pero no se encuentra un servidor conectado. Por favor arranque o reinicie el servidor correspondiente.");
         }
 
         void ApagarMicrofono(byte num) 
@@ -237,7 +347,7 @@ namespace MicrophoneProject
             if (_cliente.Connected)
                 _cliente.Send((num + DIF_ENCENDER_APAGAR).ToString(), true);
             else
-                _p.Notify("Intentando enviar instruccion de ON pero no se encuentra un servidor conectado. Por favor arranque o reinicie el servidor correspondiente.");
+                _view.Notify("Intentando enviar instruccion de ON pero no se encuentra un servidor conectado. Por favor arranque o reinicie el servidor correspondiente.");
         }
 
         void ApagarTodos()
@@ -262,38 +372,7 @@ namespace MicrophoneProject
 
         #endregion
 
-        #region Conexion Cliente-Servidor
-        /// <summary>
-        /// Intenta conectarse el cliente al servidor correspondiente
-        /// </summary>
-        /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
-        bool ConectarseAServidor()
-        {
-            //_cliente.Connect(4510, 186, 114, 146, 28);
-            if (_cliente.Connected)
-            {
-                _p.Log("Esta intentando conectar el cliente al servidor, pero este ya esta conectado");
-                return true;
-            }
-            else
-                return _cliente.Connect(4510, 192, 168, 114, 1);
-        }
         
-        /// <summary>
-        /// Intenta desconectar el cliente del servidor correspondiente
-        /// </summary>
-        /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
-        bool DesconectarseDeServidor()
-        {
-            if (_cliente.Connected)
-                return _cliente.Disconnect();
-            else
-            {
-                _p.Log("Esta intentando conectar el cliente al servidor, pero este ya esta conectado");
-                return true;
-            }
-        }
-        #endregion
     }
 
     public class Microfono
@@ -323,7 +402,7 @@ namespace MicrophoneProject
                     return TotalTime - Time == 0;
             }
         }
-        public bool IsFree { get { return Time >= 50; } }
+        public bool IsFree { get { return Time >= 300; } }
 
         public override string ToString()
         {
