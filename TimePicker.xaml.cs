@@ -8,6 +8,8 @@ namespace MicrophoneProject
 	/// </summary>
 	public partial class TimePicker : UserControl
 	{
+        readonly int MAXIMUM = 20;
+
 		public TimePicker()
 		{
 			this.InitializeComponent();
@@ -21,16 +23,8 @@ namespace MicrophoneProject
 
 		private void Slider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
-            if (sldPicker.Value != 0 && sldPicker.Value != 5)
-            {
-                SelectedTime = Math.Truncate(sldPicker.Value * 10) / 10;
-                btnFree.Content = SelectedTime + " mins";
-            }
-            else
-            {
-                btnFree.Content = "Libre";
-                SelectedTime = 50;
-            }
+            btnFree.Content = "Libre";
+            SelectedTime = 50;
 		}
 
 		private void btnConfirm_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -40,16 +34,16 @@ namespace MicrophoneProject
             if (boton == btnFree)
             {
                 if(this.SelectedTime == 0.0 || this.SelectedTime == 5.0)
-                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = sldPicker.Maximum * 10 * 60 };
+                    t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = MAXIMUM * 10 * 60 };
                 else
                     t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = this.SelectedTime };
             }
             else if (boton == btnOne)
                 t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 1 };
-            else if (boton == btnHalf)
-                t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 0.5 };
+            else if (boton == btnFive)
+                t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 5 };
             else if (boton == btnTen)
-                t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 0.2 };
+                t = new TimePickerEventArgs() { Mic = this.Mic, SelectedTime = 10 };
             if(t != null)
                 Confirm(this, t);
 		}

@@ -11,12 +11,12 @@
 	<Grid x:Name="LayoutRoot">
 		<TextBlock HorizontalAlignment="Left" Margin="22.813,48,0,0" TextWrapping="Wrap" Text="Software desarrollado por" VerticalAlignment="Top" Style="{DynamicResource metroCaption}"/>
 		<Image Height="100" Margin="0,120,0,0" VerticalAlignment="Top" Source="logoof2.png" HorizontalAlignment="Center"/>
-		<TextBlock HorizontalAlignment="Center" Margin="0,220,0,0" TextWrapping="Wrap" Text="NIT : 11.10.512.985" Style="{DynamicResource metroCaption}" FontSize="16" Height="28" VerticalAlignment="Top"/>
+		<TextBlock HorizontalAlignment="Center" Margin="0,226,0,0" TextWrapping="Wrap" Text="NIT : 11.10.512.985" Style="{DynamicResource metroCaption}" FontSize="16" Height="28" VerticalAlignment="Top"/>
 		<TextBlock HorizontalAlignment="Left" Margin="172.143,0,0,180" TextWrapping="Wrap" Text="Sergio Daniel Lozano García" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Bottom"/>
 		<TextBlock HorizontalAlignment="Left" Margin="172.143,0,0,148" TextWrapping="Wrap" Text="Contacto y soporte técnico" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Bottom"/>
 		<TextBlock HorizontalAlignment="Left" Margin="226.263,0,0,116" TextWrapping="Wrap" Text="E-mail : contacto@instartius.com" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Bottom"/>
 		<TextBlock HorizontalAlignment="Left" Margin="226.263,0,0,84" TextWrapping="Wrap" Text="Cel. : 311 800 70 84" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Bottom"/>
 		<Button Content="Volver" HorizontalAlignment="Right" Margin="0,0,8,8" VerticalAlignment="Bottom" Width="112" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Height="48" Click="Button_Click" FontSize="18.667"/>
-		<TextBlock HorizontalAlignment="Center" Margin="0,240,0,0" TextWrapping="Wrap" Text="www.instartius.com" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Top" FontWeight="Normal" FontFamily="Segoe UI Semibold"/>
+		<TextBlock HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" Text="www.instartius.com" Style="{DynamicResource metroCaption}" FontSize="21.333" Height="28" VerticalAlignment="Top" FontWeight="Normal" FontFamily="Segoe UI Semibold"/>
 	</Grid>
 </UserControl>

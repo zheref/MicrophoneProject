@@ -24,7 +24,7 @@ namespace MicrophoneProject
         #endregion
 
         #region Campos de Modo Libre
-        List<Microfono> _activeFreeMics = new List<Microfono>();
+        private List<Microfono> _activeFreeMics = new List<Microfono>();
         #endregion
 
         public MicrophoneClient(RoomSelected roomselecter)
@@ -111,7 +111,7 @@ namespace MicrophoneProject
         /// Intenta conectarse el cliente al servidor correspondiente
         /// </summary>
         /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
-        bool ConectarseAServidor()
+        private bool ConectarseAServidor()
         {
             if (_cliente.Connected)
             {
@@ -125,7 +125,7 @@ namespace MicrophoneProject
         /// Intenta desconectar el cliente del servidor correspondiente
         /// </summary>
         /// <returns>true si el cliente consigue estar conectado al servidor al finalizar la operacion</returns>
-        bool DesconectarseDeServidor()
+        private bool DesconectarseDeServidor()
         {
             if (_cliente.Connected)
                 return _cliente.Disconnect();
@@ -140,7 +140,7 @@ namespace MicrophoneProject
         /// Leer desde el archivo "networkconfig.xml" la configuracion de la IP
         /// </summary>
         /// <returns></returns>
-        byte[] LeerIPXML()
+        private byte[] LeerIPXML()
         {
             DataSet dataset = new DataSet();
             dataset.ReadXml("networkconfig.xml");
@@ -161,7 +161,7 @@ namespace MicrophoneProject
         /// Lee desde el archivo "networkconfig.xml" la configuración del puerto
         /// </summary>
         /// <returns></returns>
-        int LeerPuertoXML()
+        private int LeerPuertoXML()
         {
             DataSet dataset = new DataSet();
             dataset.ReadXml("networkconfig.xml");
@@ -170,8 +170,6 @@ namespace MicrophoneProject
             return int.Parse(sport);
         }
         #endregion
-
-        
 
         public void AgregarMicrofono(Microfono mic) { _microfonos.Add(mic); }
 
@@ -209,6 +207,34 @@ namespace MicrophoneProject
             }
         }
 
+        public Microfono MicrofonoPropietarioDeTag(Label tag)
+        {
+            var mics = from m in Microfonos
+                       where m.Tag == tag
+                       select m;
+            return mics.Single();
+        }
+
+        public void ActualizarTagDeTodosMicrofonos()
+        {
+            foreach (Microfono mic in Microfonos)
+                mic.Tag.Content = LeerNombreTagMicrofonoNum(mic.Number);
+        }
+
+        public void ActualizarTagDelMicrofono(Microfono mic)
+        {
+            mic.Tag.Content = LeerNombreTagMicrofonoNum(mic.Number);
+        }
+
+        private string LeerNombreTagMicrofonoNum(int numero)
+        {
+            DataSet dataset = new DataSet();
+            dataset.ReadXml("nombres.xml");
+            DataRow dr = dataset.Tables["nombre"].Rows[numero - 1];
+            string text = dr["nombre_Text"].ToString();
+            return text;
+        }
+
         public void OrdenApagarTodo()
         {
             ApagarTodos();
@@ -223,7 +249,7 @@ namespace MicrophoneProject
             _view.LimpiarTextoBotonesMicrofonos();
         }
 
-        void MostrarControlTiempo(Microfono mic) { _view.MostrarControlTiempo(mic); }
+        private void MostrarControlTiempo(Microfono mic) { _view.MostrarControlTiempo(mic); }
 
         Turno TurnoAsignadoDeMicrofono(Microfono mic)
         {
@@ -233,7 +259,7 @@ namespace MicrophoneProject
             return turns.Single();
         }
 
-        void _timer_Tick(object sender, EventArgs e)
+        private void _timer_Tick(object sender, EventArgs e)
         {
             if (Time > 0)
             {
@@ -269,7 +295,7 @@ namespace MicrophoneProject
             }
         }
 
-        void Detenerse()
+        private void Detenerse()
         {
             _timer.Stop();
             Turno t = _cola.Dequeue();
@@ -372,44 +398,5 @@ namespace MicrophoneProject
 
         #endregion
 
-        
-    }
-
-    public class Microfono
-    {
-        public byte Number { get; set; }
-        public Button Control { get; set; }
-    }
-
-    public class Turno
-    {
-        public long Time { get; set; }
-        public long TotalTime { get; set; }
-        public Microfono Mic { get; set; }
-        bool _begin = true;
-
-        public bool IsBeginning
-        {
-            get
-            {
-                if (IsFree)
-                {
-                    bool real = _begin;
-                    _begin = false;
-                    return real;
-                }
-                else
-                    return TotalTime - Time == 0;
-            }
-        }
-        public bool IsFree { get { return Time >= 300; } }
-
-        public override string ToString()
-        {
-            if (IsFree)
-                return "LIBRE";
-            else
-                return this.Time.ToString();
-        }
-    }
+    } // Termina clase MicrophoneClient
 }

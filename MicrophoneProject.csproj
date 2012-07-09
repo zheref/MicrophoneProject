@@ -62,10 +62,14 @@
     <Compile Include="IPConfiguration.xaml.cs">
       <DependentUpon>IPConfiguration.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LabelChanger.xaml.cs">
+      <DependentUpon>LabelChanger.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LOB\Control.cs" />
     <Compile Include="LOB\ControlClient.cs" />
     <Compile Include="LOB\ControlServer.cs" />
     <Compile Include="LOB\IBoundary.cs" />
+    <Compile Include="Microfono.cs" />
     <Compile Include="MicrophoneClient.cs" />
     <Compile Include="RoomSelected.xaml.cs">
       <DependentUpon>RoomSelected.xaml</DependentUpon>
@@ -73,11 +77,16 @@
     <Compile Include="TimePicker.xaml.cs">
       <DependentUpon>TimePicker.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Turno.cs" />
     <Page Include="AboutInstartius.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="IPConfiguration.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="LabelChanger.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -128,6 +137,11 @@
   <ItemGroup>
     <Resource Include="networkconfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="nombres.xml">
+      <SubType>Designer</SubType>
     </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath32)\Microsoft.CSharp.targets" />

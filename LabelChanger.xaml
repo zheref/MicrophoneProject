@@ -1,0 +1,16 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="MicrophoneProject.LabelChanger"
+	x:Name="UserControl"
+	d:DesignWidth="640" d:DesignHeight="480">
+
+	<Grid x:Name="LayoutRoot">
+		<Label Content="Nombre de Microfono..." HorizontalAlignment="Left" Margin="8,8,0,0" VerticalAlignment="Top" Style="{DynamicResource metroLabel}"/>
+		<TextBox x:Name="txtNombre" Margin="8,136,8,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Style="{DynamicResource metroTextBox}" Height="48"/>
+		<Button x:Name="btnAction" Content="Confirmar y volver" HorizontalAlignment="Right" Margin="0,0,8,8" VerticalAlignment="Bottom" Width="192" Template="{DynamicResource metroButton}" Style="{DynamicResource metroButtonDefaultStyle}" Height="48" FontSize="18.667" Click="btnAction_Click"/>
+	</Grid>
+</UserControl>

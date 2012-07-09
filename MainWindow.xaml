@@ -4,11 +4,11 @@
 		xmlns:l="clr-namespace:MicrophoneProject"
 		x:Class="MicrophoneProject.MainWindow"
 		x:Name="Window"
-		Title="Microphone Project Title"
+		Title="Instartius MicActivator 1.1"
 		Width="1110" Height="604" WindowStartupLocation="CenterScreen" WindowState="Maximized" Background="Black" ResizeMode="CanMinimize">
 	<DockPanel x:Name="grdContainer">
 		<Grid DockPanel.Dock="Top">
-			<Label Content="Activador de Microfonos" VerticalAlignment="Top" Height="80" Background="#00000000" Foreground="White" Style="{DynamicResource metroLabel}" FontSize="48"/>
+			<Label Content="Instartius MicActivator 1.1" VerticalAlignment="Top" Height="80" Background="#00000000" Foreground="White" Style="{DynamicResource metroLabel}" FontSize="48" Margin="17,0,0,0"/>
 		</Grid>
 		<l:RoomSelected />
 	</DockPanel>
